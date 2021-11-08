@@ -8,5 +8,17 @@ namespace ChessApplication.Generic
 {
     enum Color
     {
+        Red,
+        Green,
+        Blue,
+        Yellow,
+        Orange,
+        Purble,
+        Pink,
+        White,
+        Gray,
+        Brown,
+        Black
+        
     }
 }
