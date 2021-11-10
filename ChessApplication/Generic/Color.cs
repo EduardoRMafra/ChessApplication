@@ -19,6 +19,5 @@ namespace ChessApplication.Generic
         Gray,
         Brown,
         Black
-        
     }
 }
