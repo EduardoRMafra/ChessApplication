@@ -1,4 +1,5 @@
 ﻿using System;
+using ChessApplication.Chess;
 
 namespace ChessApplication
 {
@@ -6,7 +7,12 @@ namespace ChessApplication
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ChessGame Chess = new ChessGame();
+
+            if (!Chess.Finish)
+            {
+                Screen.GameScreen(Chess);
+            }
         }
     }
 }

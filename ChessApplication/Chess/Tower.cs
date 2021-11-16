@@ -11,7 +11,7 @@ namespace ChessApplication.Chess
 
         public override string ToString()
         {
-            return "T";
+            return " T ";
         }
     }
 }

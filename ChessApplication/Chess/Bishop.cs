@@ -12,7 +12,7 @@ namespace ChessApplication.Chess
 
         public override string ToString()
         {
-            return "B";
+            return " B ";
         }
     }
 }
