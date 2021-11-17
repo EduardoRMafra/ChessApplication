@@ -20,11 +20,11 @@ namespace ChessApplication
             ConsoleColor StartBackgroundBoardG = ConsoleColor.Red;
             ConsoleColor BackgroundBoardG = ConsoleColor.Red;
 
-            CreateEdge("          Chess Game        ", ConsoleColor.Black, ConsoleColor.Yellow);
-            CreateEdge("   a  b  c  d  e  f  g  h   ");
+            CreateEdge("           Chess Game        ", ConsoleColor.Yellow, ConsoleColor.Black);
+            CreateEdge("    a  b  c  d  e  f  g  h   ");
             for (int i = 0; i < gBoard.Line; i++)
             {
-                CreateEdge(8 - i + " ",ConsoleColor.Green , ConsoleColor.White, false);
+                CreateEdge(" " + (8 - i) + " ",ConsoleColor.Green , ConsoleColor.Black, false);
                 Console.BackgroundColor = StartBackgroundBoardG;
                 for (int j = 0; j < gBoard.Column; j++)
                 {
@@ -32,12 +32,12 @@ namespace ChessApplication
                     BackgroundChange(BackgroundBoardG, out BackgroundBoardG);
                     Console.BackgroundColor = BackgroundBoardG;
                 }
-                CreateEdge(8 - i + " ");
+                CreateEdge(" " + (8 - i) + " ");
                 BackgroundChange(StartBackgroundBoardG, out StartBackgroundBoardG);
                 BackgroundBoardG = StartBackgroundBoardG;
             }
 
-            CreateEdge("   a  b  c  d  e  f  g  h   ");
+            CreateEdge("    a  b  c  d  e  f  g  h   ");
         }
         static void GameBoardPieces(Piece p)
         {
@@ -60,7 +60,7 @@ namespace ChessApplication
                 Console.ResetColor();
             }
         }
-        static void CreateEdge(string s, ConsoleColor c = ConsoleColor.Green, ConsoleColor b = ConsoleColor.White, bool nextLine = true)
+        static void CreateEdge(string s, ConsoleColor c = ConsoleColor.Green, ConsoleColor b = ConsoleColor.Black, bool nextLine = true)
         {
             Console.BackgroundColor = b;
             Console.ForegroundColor = c;
@@ -68,8 +68,7 @@ namespace ChessApplication
             Console.ResetColor();
             if (nextLine)
             {
-                //Conserta um bug que mesmo resetando a cor para o padrão, ao mudar o tamanho da janela o fundo da esquerda ficava totalmente branco
-                Console.WriteLine("|");
+                Console.WriteLine();
             }
         }
         static void BackgroundChange(ConsoleColor b, out ConsoleColor c)
