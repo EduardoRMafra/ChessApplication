@@ -12,7 +12,7 @@ namespace ChessApplication
     {
         public static void GameScreen(ChessGame chess)
         {
-            GameBoardScreen(chess.BoardG);
+            GameBoardScreen(chess.GameB);
         }
 
         public static void GameBoardScreen(GameBoard gBoard)
@@ -81,6 +81,13 @@ namespace ChessApplication
             {
                 c = ConsoleColor.Red;
             }
+        }
+        public static ChessPosition ReadChessPosition()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int line = int.Parse(s[1] + "");
+            return new ChessPosition(column, line);
         }
     }
 }

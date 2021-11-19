@@ -20,5 +20,13 @@ namespace ChessApplication.Generic
             Color = color;
             QtMovements = 0;
         }
+        public void IncreaseQtMoves()
+        {
+            QtMovements++;
+        }
+        public void DecreaseQtMoves()
+        {
+            QtMovements--;
+        }
     }
 }

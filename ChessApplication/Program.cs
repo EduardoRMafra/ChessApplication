@@ -1,5 +1,7 @@
 ﻿using System;
 using ChessApplication.Chess;
+using ChessApplication.Generic;
+using ChessApplication.Exceptions;
 
 namespace ChessApplication
 {
@@ -9,9 +11,33 @@ namespace ChessApplication
         {
             ChessGame Chess = new ChessGame();
 
-            if (!Chess.Finish)
+            while (!Chess.Finish)
             {
-                Screen.GameScreen(Chess);
+                try
+                {
+                    Console.Clear();
+                    Screen.GameScreen(Chess);
+
+                    Console.WriteLine();
+
+                    Console.Write("Initial Position: ");
+                    Position initial = Screen.ReadChessPosition().toPosision();
+                    Console.Clear();
+                    
+                    Screen.GameScreen(Chess);
+                    Console.WriteLine();
+
+                    Console.Write("Destination Position: ");
+                    Position destination = Screen.ReadChessPosition().toPosision();
+
+                    Chess.MovePiece(initial, destination);
+                
+                }
+                catch(GameBoardExceptions e)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(e.Message);
+                }
             }
         }
     }
