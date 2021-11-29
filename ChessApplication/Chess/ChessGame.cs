@@ -113,14 +113,14 @@ namespace ChessApplication.Chess
             PutNewPieces('f', 1, new Bishop(GameB, Color.White));
             PutNewPieces('g', 1, new Horse(GameB, Color.White));
             PutNewPieces('h', 1, new Tower(GameB, Color.White));
-            PutNewPieces('a', 2, new Pawn(GameB, Color.White));
-            PutNewPieces('b', 2, new Pawn(GameB, Color.White));
-            PutNewPieces('c', 2, new Pawn(GameB, Color.White));
-            PutNewPieces('d', 2, new Pawn(GameB, Color.White));
-            PutNewPieces('e', 2, new Pawn(GameB, Color.White));
-            PutNewPieces('f', 2, new Pawn(GameB, Color.White));
-            PutNewPieces('g', 2, new Pawn(GameB, Color.White));
-            PutNewPieces('h', 2, new Pawn(GameB, Color.White));
+            PutNewPieces('a', 2, new Pawn(GameB, Color.White, this));
+            PutNewPieces('b', 2, new Pawn(GameB, Color.White, this));
+            PutNewPieces('c', 2, new Pawn(GameB, Color.White, this));
+            PutNewPieces('d', 2, new Pawn(GameB, Color.White, this));
+            PutNewPieces('e', 2, new Pawn(GameB, Color.White, this));
+            PutNewPieces('f', 2, new Pawn(GameB, Color.White, this));
+            PutNewPieces('g', 2, new Pawn(GameB, Color.White, this));
+            PutNewPieces('h', 2, new Pawn(GameB, Color.White, this));
             //Peças Pretas
             PutNewPieces('a', 8, new Tower(GameB, Color.Black));
             PutNewPieces('b', 8, new Horse(GameB, Color.Black));
@@ -130,14 +130,14 @@ namespace ChessApplication.Chess
             PutNewPieces('f', 8, new Bishop(GameB, Color.Black));
             PutNewPieces('g', 8, new Horse(GameB, Color.Black));
             PutNewPieces('h', 8, new Tower(GameB, Color.Black));
-            PutNewPieces('a', 7, new Pawn(GameB, Color.Black));
-            PutNewPieces('b', 7, new Pawn(GameB, Color.Black));
-            PutNewPieces('c', 7, new Pawn(GameB, Color.Black));
-            PutNewPieces('d', 7, new Pawn(GameB, Color.Black));
-            PutNewPieces('e', 7, new Pawn(GameB, Color.Black));
-            PutNewPieces('f', 7, new Pawn(GameB, Color.Black));
-            PutNewPieces('g', 7, new Pawn(GameB, Color.Black));
-            PutNewPieces('h', 7, new Pawn(GameB, Color.Black));
+            PutNewPieces('a', 7, new Pawn(GameB, Color.Black, this));
+            PutNewPieces('b', 7, new Pawn(GameB, Color.Black, this));
+            PutNewPieces('c', 7, new Pawn(GameB, Color.Black, this));
+            PutNewPieces('d', 7, new Pawn(GameB, Color.Black, this));
+            PutNewPieces('e', 7, new Pawn(GameB, Color.Black, this));
+            PutNewPieces('f', 7, new Pawn(GameB, Color.Black, this));
+            PutNewPieces('g', 7, new Pawn(GameB, Color.Black, this));
+            PutNewPieces('h', 7, new Pawn(GameB, Color.Black, this));
         }
     }
 }

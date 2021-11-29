@@ -20,8 +20,8 @@ namespace ChessApplication.Chess
 
             Position pos = new Position(0, 0);
 
-            //cima
-            pos.SetPosition(Position.Line - 1, Position.Column);
+            //diagonal cima esq
+            pos.SetPosition(Position.Line - 1, Position.Column - 1);
             while (GameB.PositionValided(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -30,9 +30,22 @@ namespace ChessApplication.Chess
                     break;
                 }
                 pos.Line = pos.Line - 1;
+                pos.Column = pos.Column - 1;
             }
-            //baixo
-            pos.SetPosition(Position.Line + 1, Position.Column);
+            //diagonal cima dir
+            pos.SetPosition(Position.Line - 1, Position.Column + 1);
+            while (GameB.PositionValided(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+                if (GameB.piece(pos) != null)
+                {
+                    break;
+                }
+                pos.Line = pos.Line - 1;
+                pos.Column = pos.Column + 1;
+            }
+            //diagonal baixo esq
+            pos.SetPosition(Position.Line + 1, Position.Column - 1);
             while (GameB.PositionValided(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -41,20 +54,10 @@ namespace ChessApplication.Chess
                     break;
                 }
                 pos.Line = pos.Line + 1;
-            }
-            //esquerda
-            pos.SetPosition(Position.Line, Position.Column - 1);
-            while (GameB.PositionValided(pos) && canMove(pos))
-            {
-                mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
-                {
-                    break;
-                }
                 pos.Column = pos.Column - 1;
             }
-            //direita
-            pos.SetPosition(Position.Line, Position.Column + 1);
+            //diagonal baixo dir
+            pos.SetPosition(Position.Line + 1, Position.Column + 1);
             while (GameB.PositionValided(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
@@ -62,6 +65,7 @@ namespace ChessApplication.Chess
                 {
                     break;
                 }
+                pos.Line = pos.Line + 1;
                 pos.Column = pos.Column + 1;
             }
             return mat;

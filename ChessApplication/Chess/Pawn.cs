@@ -4,14 +4,24 @@ namespace ChessApplication.Chess
 {
     class Pawn : Piece
     {
-        public Pawn(GameBoard gameBoard, Color color) : base(gameBoard, color)
+        ChessGame Chess;
+        public Pawn(GameBoard gameBoard, Color color, ChessGame chess) : base(gameBoard, color)
         {
-
+            Chess = chess;
         }
-        bool canMove(Position pos)
+        bool CanMove(Position pos)
         {
             Piece p = GameB.piece(pos);
             return p == null || p.Color != Color;
+        }
+        bool HasEnemy(Position pos)
+        {
+            Piece p = GameB.piece(pos);
+            return p != null && p.Color != Color;
+        }
+        bool Empty(Position pos)
+        {
+            return GameB.piece(pos) == null;
         }
         public override bool[,] PosibleMoves()
         {
@@ -19,49 +29,59 @@ namespace ChessApplication.Chess
 
             Position pos = new Position(0, 0);
 
-            //cima
-            pos.SetPosition(Position.Line - 1, Position.Column);
-            while (GameB.PositionValided(pos) && canMove(pos))
+            if (Color == Color.White)
             {
-                mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
+                //movimentação normal
+                pos.SetPosition(Position.Line - 1, Position.Column);
+                if (GameB.PositionValided(pos) && Empty(pos))
                 {
-                    break;
+                    mat[pos.Line, pos.Column] = true;
                 }
-                pos.Line = pos.Line - 1;
+                //movimentação inicial
+                pos.SetPosition(Position.Line - 2, Position.Column);
+                if (GameB.PositionValided(pos) && Empty(pos) && QtMovements == 0)
+                {
+                    mat[pos.Line, pos.Column] = true;
+                }
+                //capturar esquerda
+                pos.SetPosition(Position.Line - 1, Position.Column - 1);
+                if (GameB.PositionValided(pos) && HasEnemy(pos))
+                {
+                    mat[pos.Line, pos.Column] = true;
+                }
+                //capturar direita
+                pos.SetPosition(Position.Line - 1, Position.Column + 1);
+                if (GameB.PositionValided(pos) && HasEnemy(pos))
+                {
+                    mat[pos.Line, pos.Column] = true;
+                }
             }
-            //baixo
-            pos.SetPosition(Position.Line + 1, Position.Column);
-            while (GameB.PositionValided(pos) && canMove(pos))
+            else
             {
-                mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
+                //movimentação normal
+                pos.SetPosition(Position.Line + 1, Position.Column);
+                if (GameB.PositionValided(pos) && Empty(pos))
                 {
-                    break;
+                    mat[pos.Line, pos.Column] = true;
                 }
-                pos.Line = pos.Line + 1;
-            }
-            //esquerda
-            pos.SetPosition(Position.Line, Position.Column - 1);
-            while (GameB.PositionValided(pos) && canMove(pos))
-            {
-                mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
+                //movimentação inicial
+                pos.SetPosition(Position.Line + 2, Position.Column);
+                if (GameB.PositionValided(pos) && Empty(pos) && QtMovements == 0)
                 {
-                    break;
+                    mat[pos.Line, pos.Column] = true;
                 }
-                pos.Column = pos.Column - 1;
-            }
-            //direita
-            pos.SetPosition(Position.Line, Position.Column + 1);
-            while (GameB.PositionValided(pos) && canMove(pos))
-            {
-                mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
+                //capturar esquerda
+                pos.SetPosition(Position.Line + 1, Position.Column - 1);
+                if (GameB.PositionValided(pos) && HasEnemy(pos))
                 {
-                    break;
+                    mat[pos.Line, pos.Column] = true;
                 }
-                pos.Column = pos.Column + 1;
+                //capturar direita
+                pos.SetPosition(Position.Line + 1, Position.Column + 1);
+                if (GameB.PositionValided(pos) && HasEnemy(pos))
+                {
+                    mat[pos.Line, pos.Column] = true;
+                }
             }
             return mat;
         }

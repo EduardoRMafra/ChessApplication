@@ -21,47 +21,51 @@ namespace ChessApplication.Chess
 
             //cima
             pos.SetPosition(Position.Line - 1, Position.Column);
-            while (GameB.PositionValided(pos) && canMove(pos))
+            if (GameB.PositionValided(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
-                {
-                    break;
-                }
-                pos.Line = pos.Line - 1;
             }
             //baixo
             pos.SetPosition(Position.Line + 1, Position.Column);
-            while (GameB.PositionValided(pos) && canMove(pos))
+            if (GameB.PositionValided(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
-                {
-                    break;
-                }
-                pos.Line = pos.Line + 1;
             }
             //esquerda
             pos.SetPosition(Position.Line, Position.Column - 1);
-            while (GameB.PositionValided(pos) && canMove(pos))
+            if (GameB.PositionValided(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
-                {
-                    break;
-                }
-                pos.Column = pos.Column - 1;
             }
             //direita
             pos.SetPosition(Position.Line, Position.Column + 1);
-            while (GameB.PositionValided(pos) && canMove(pos))
+            if (GameB.PositionValided(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Column] = true;
-                if (GameB.piece(pos) != null)
-                {
-                    break;
-                }
-                pos.Column = pos.Column + 1;
+            }
+            //diagonal cima esq
+            pos.SetPosition(Position.Line - 1, Position.Column - 1);
+            if (GameB.PositionValided(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+            }
+            //diagonal cima dir
+            pos.SetPosition(Position.Line - 1, Position.Column + 1);
+            if (GameB.PositionValided(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+            }
+            //diagonal baixo esq
+            pos.SetPosition(Position.Line + 1, Position.Column - 1);
+            if (GameB.PositionValided(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
+            }
+            //diagonal baixo dir
+            pos.SetPosition(Position.Line + 1, Position.Column + 1);
+            if (GameB.PositionValided(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Column] = true;
             }
             return mat;
         }
