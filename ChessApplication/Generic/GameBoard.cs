@@ -55,8 +55,7 @@ namespace ChessApplication.Generic
             Pieces[pos.Line, pos.Column] = null;
             return aux;
         }
-
-        bool PositionValided(Position pos)
+        public bool PositionValided(Position pos)
         {
             if (pos.Line < 0 || pos.Line >= Line || pos.Column < 0 || pos.Column >= Column)
             {
@@ -64,7 +63,7 @@ namespace ChessApplication.Generic
             }
             return true;
         }
-        void ValidPosition(Position pos)
+        public void ValidPosition(Position pos)
         {
             if (!PositionValided(pos))
             {

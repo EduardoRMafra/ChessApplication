@@ -39,6 +39,36 @@ namespace ChessApplication
 
             CreateEdge("    a  b  c  d  e  f  g  h   ");
         }
+        public static void GameBoardScreen(GameBoard gBoard, bool[,] posibleMoves)
+        {
+            ConsoleColor StartBackgroundBoardG = ConsoleColor.Red;
+            ConsoleColor BackgroundBoardG = ConsoleColor.Red;
+
+            CreateEdge("           Chess Game        ", ConsoleColor.Yellow, ConsoleColor.Black);
+            CreateEdge("    a  b  c  d  e  f  g  h   ");
+            for (int i = 0; i < gBoard.Line; i++)
+            {
+                CreateEdge(" " + (8 - i) + " ", ConsoleColor.Green, ConsoleColor.Black, false);
+                Console.BackgroundColor = StartBackgroundBoardG;
+                for (int j = 0; j < gBoard.Column; j++)
+                {
+                    if (posibleMoves[i, j])
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                    }
+                    GameBoardPieces(gBoard.piece(i, j));
+                    BackgroundChange(BackgroundBoardG, out BackgroundBoardG);
+
+                    Console.BackgroundColor = BackgroundBoardG;
+
+                }
+                CreateEdge(" " + (8 - i) + " ");
+                BackgroundChange(StartBackgroundBoardG, out StartBackgroundBoardG);
+                BackgroundBoardG = StartBackgroundBoardG;
+            }
+
+            CreateEdge("    a  b  c  d  e  f  g  h   ");
+        }
         static void GameBoardPieces(Piece p)
         {
             if(p == null)

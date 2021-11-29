@@ -22,21 +22,26 @@ namespace ChessApplication
 
                     Console.Write("Initial Position: ");
                     Position initial = Screen.ReadChessPosition().toPosision();
+                    Chess.InitialPositionIsValid(initial);
+
+                    bool[,] posiblePosition = Chess.GameB.piece(initial).PosibleMoves();
                     Console.Clear();
                     
-                    Screen.GameScreen(Chess);
+                    Screen.GameBoardScreen(Chess.GameB, posiblePosition);
                     Console.WriteLine();
 
                     Console.Write("Destination Position: ");
                     Position destination = Screen.ReadChessPosition().toPosision();
+                    Chess.DestinationPositionIsValid(initial, destination);
 
-                    Chess.MovePiece(initial, destination);
+                    Chess.MakeMovement(initial, destination);
                 
                 }
                 catch(GameBoardExceptions e)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(e.Message);
+                    Console.ReadLine();
                 }
             }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChessApplication.Generic;
+using ChessApplication.Exceptions;
 
 namespace ChessApplication.Chess
 {
@@ -29,7 +30,7 @@ namespace ChessApplication.Chess
             Captured = new HashSet<Piece>();
             PiecesToPlace();
         }
-        public Piece MovePiece(Position initial, Position destination)
+        Piece MovePiece(Position initial, Position destination)
         {
             Piece p = GameB.RemovePiece(initial);
             p.IncreaseQtMoves();
@@ -39,8 +40,62 @@ namespace ChessApplication.Chess
             {
                 Captured.Add(capturedPiece);
             }
-
             return capturedPiece;
+        }
+        public void UndoMove(Position initial, Position destination,Piece capturedPiece)
+        {
+            Piece p = GameB.RemovePiece(destination);
+            p.DecreaseQtMoves();
+            if(capturedPiece != null)
+            {
+                GameB.PieceToPlace(capturedPiece,destination);
+                Captured.Remove(capturedPiece);
+            }
+            GameB.PieceToPlace(p, initial);
+        }
+        public void MakeMovement(Position initial, Position destination)
+        {
+            Piece capturedPiece = MovePiece(initial, destination);
+
+            Piece p = GameB.piece(destination);
+
+            Turn++;
+            ChangePlayer();
+        }
+        public void InitialPositionIsValid(Position pos)
+        {
+            GameB.ValidPosition(pos);
+
+            if (GameB.piece(pos) == null)
+            {
+                throw new GameBoardExceptions("Has no piece in this position!");
+            }
+            if (CurrentPlayer != GameB.piece(pos).Color)
+            {
+                throw new GameBoardExceptions("This piece isn't yours!");
+            }
+            if (!GameB.piece(pos).HasPosibleMoves())
+            {
+                throw new GameBoardExceptions("Has no posible moves for this piece!");
+            }
+        }
+        public void DestinationPositionIsValid(Position Initial, Position Destination)
+        {
+            if (!GameB.piece(Initial).PosibleMove(Destination))
+            {
+                throw new GameBoardExceptions("Invalid position!");
+            }
+        }
+        void ChangePlayer()
+        {
+            if(CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
         }
         public void PutNewPieces(char c, int l, Piece p)
         {

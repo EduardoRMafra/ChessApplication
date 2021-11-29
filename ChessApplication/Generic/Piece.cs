@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace ChessApplication.Generic
 {
-    class Piece
+    abstract class Piece
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
         public int QtMovements { get; protected set; }
-        public GameBoard Board { get; protected set; }
+        public GameBoard GameB { get; protected set; }
     
         public Piece(GameBoard board, Color color)
         {
             Position = null;
-            Board = board;
+            GameB = board;
             Color = color;
             QtMovements = 0;
         }
@@ -28,5 +28,22 @@ namespace ChessApplication.Generic
         {
             QtMovements--;
         }
+        public bool HasPosibleMoves()
+        {
+            bool[,] mat = PosibleMoves();
+            foreach(bool p in mat)
+            {
+                if(p == true)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool PosibleMove(Position pos)
+        {
+            return PosibleMoves()[pos.Line, pos.Column];
+        }
+        public abstract bool[,] PosibleMoves();
     }
 }
