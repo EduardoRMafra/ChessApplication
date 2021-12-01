@@ -97,6 +97,41 @@ namespace ChessApplication.Chess
                 CurrentPlayer = Color.White;
             }
         }
+        Color EnemyColor(Color color)
+        {
+            if(color == Color.White)
+            {
+                return Color.Black;
+            }
+            return Color.White;
+        }
+        //verifica todas as peças capturadas de uma determinada cor
+        public HashSet<Piece> CapturedPieces(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach (Piece x in Captured)
+            {
+                if (x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+            return aux;
+        }
+        //verifica todas as peças em jogo
+        public HashSet<Piece> PiecesInGame(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach (Piece x in Pieces)
+            {
+                if (x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+            aux.ExceptWith(CapturedPieces(color));
+            return aux;
+        }
         public void PutNewPieces(char c, int l, Piece p)
         {
             GameB.PieceToPlace(p, new ChessPosition(c, l).toPosision());

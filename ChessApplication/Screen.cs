@@ -13,6 +13,22 @@ namespace ChessApplication
         public static void GameScreen(ChessGame chess)
         {
             GameBoardScreen(chess.GameB);
+            Console.WriteLine();
+            GetCapturedPieces(chess);
+            Console.WriteLine("Turn: " + chess.Turn);
+            if (!chess.Finish)
+            {
+                Console.WriteLine("Waiting move: " + chess.CurrentPlayer);
+                if (chess.Check)
+                {
+                    Console.WriteLine("You are in Check!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Check mate!");
+                Console.WriteLine("Winner: " + chess.CurrentPlayer);
+            }
         }
 
         public static void GameBoardScreen(GameBoard gBoard)
@@ -118,6 +134,31 @@ namespace ChessApplication
             char column = s[0];
             int line = int.Parse(s[1] + "");
             return new ChessPosition(column, line);
+        }
+        static void GetCapturedPieces(ChessGame chess)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Captured Pieces");
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("White: ");
+            GetHashPieces(chess.CapturedPieces(Color.White));
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write("Black: ");
+            GetHashPieces(chess.CapturedPieces(Color.Black));
+            Console.WriteLine();
+            Console.ResetColor();
+
+        }
+        public static void GetHashPieces(HashSet<Piece> hash)
+        {
+            Console.Write("[");
+            foreach(Piece p in hash)
+            {
+                Console.Write(p);
+            }
+            Console.WriteLine("]");
         }
     }
 }

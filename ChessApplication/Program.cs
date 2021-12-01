@@ -44,6 +44,10 @@ namespace ChessApplication
                     Console.ReadLine();
                 }
             }
+            Console.Clear();
+            Screen.GameScreen(Chess);
+            Console.WriteLine();
+            Console.WriteLine("O jogador " + " venceu!");
         }
     }
 }
