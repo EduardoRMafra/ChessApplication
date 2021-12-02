@@ -55,6 +55,21 @@ namespace ChessApplication.Chess
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
+
+                //en passant
+                if(Position.Line == 3)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if(GameB.PositionValided(left) && HasEnemy(left) && GameB.piece(left) == Chess.vulnerableEnPassant)
+                    {
+                        mat[left.Line - 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (GameB.PositionValided(right) && HasEnemy(right) && GameB.piece(right) == Chess.vulnerableEnPassant)
+                    {
+                        mat[right.Line - 1, right.Column] = true;
+                    }
+                }
             }
             else
             {
@@ -82,7 +97,23 @@ namespace ChessApplication.Chess
                 {
                     mat[pos.Line, pos.Column] = true;
                 }
+
+                //en passant
+                if (Position.Line == 4)
+                {
+                    Position left = new Position(Position.Line, Position.Column - 1);
+                    if (GameB.PositionValided(left) && HasEnemy(left) && GameB.piece(left) == Chess.vulnerableEnPassant)
+                    {
+                        mat[left.Line + 1, left.Column] = true;
+                    }
+                    Position right = new Position(Position.Line, Position.Column + 1);
+                    if (GameB.PositionValided(right) && HasEnemy(right) && GameB.piece(right) == Chess.vulnerableEnPassant)
+                    {
+                        mat[right.Line + 1, right.Column] = true;
+                    }
+                }
             }
+
             return mat;
         }
         public override string ToString()

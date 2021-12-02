@@ -17,6 +17,7 @@ namespace ChessApplication.Chess
         public bool Check { get; private set; }
         HashSet<Piece> Pieces;
         HashSet<Piece> Captured;
+        public Piece vulnerableEnPassant { get; private set; }
 
         public ChessGame()
         {
@@ -25,7 +26,7 @@ namespace ChessApplication.Chess
             CurrentPlayer = Color.White;
             Finish = false;
             Check = false;
-
+            vulnerableEnPassant = null;
             Pieces = new HashSet<Piece>();
             Captured = new HashSet<Piece>();
             PiecesToPlace();
@@ -40,6 +41,26 @@ namespace ChessApplication.Chess
             {
                 Captured.Add(capturedPiece);
             }
+
+            //movimentos especiais
+            //en passant
+            if(p is Pawn)
+            {
+                if(initial.Column != destination.Column && capturedPiece == null)
+                {
+                    Position posP;
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position(destination.Line + 1, destination.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destination.Line - 1, destination.Column);
+                    }
+                    capturedPiece = GameB.RemovePiece(posP);
+                    Captured.Add(capturedPiece);
+                }
+            }
             return capturedPiece;
         }
         public void UndoMove(Position initial, Position destination,Piece capturedPiece)
@@ -52,6 +73,26 @@ namespace ChessApplication.Chess
                 Captured.Remove(capturedPiece);
             }
             GameB.PieceToPlace(p, initial);
+
+            //En passant
+            if(p is Pawn)
+            {
+                if(initial.Column != destination.Column && capturedPiece == vulnerableEnPassant)
+                {
+                    Piece pawn = GameB.RemovePiece(destination);
+                    Position posP;
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position(destination.Line + 1, destination.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destination.Line - 1, destination.Column);
+                    }
+                    GameB.PieceToPlace(capturedPiece, posP);
+                    Captured.Remove(capturedPiece);
+                }
+            }
         }
         public void MakeMovement(Position initial, Position destination)
         {
@@ -65,6 +106,38 @@ namespace ChessApplication.Chess
 
             Piece p = GameB.piece(destination);
 
+            //Promoção
+
+            if(p is Pawn)
+            {
+                if(destination.Line == 0 || destination.Line == 7)
+                {
+                    p = GameB.RemovePiece(destination);
+                    Pieces.Remove(p);
+                    Console.Write("Promotion possible, chose a promotion for the pawn (t, h, b, q): ");
+                    char pes = char.Parse(Console.ReadLine().ToLower());
+                    Piece promo;
+                    switch (pes)
+                    {
+                        case 't':
+                            promo = new Tower(GameB, p.Color);
+                            break;
+                        case 'h':
+                            promo = new Horse(GameB, p.Color);
+                            break;
+                        case 'b':
+                            promo = new Bishop(GameB, p.Color);
+                            break;
+                        case 'q':
+                            promo = new Queen(GameB, p.Color);
+                            break;
+                        default:
+                            throw new GameBoardExceptions("Invalid piece!");
+                    }
+                    GameB.PieceToPlace(promo, destination);
+                    Pieces.Add(promo);
+                }
+            }
             if (IsCheck(EnemyColor(CurrentPlayer)))
             {
                 Check = true;
@@ -81,6 +154,16 @@ namespace ChessApplication.Chess
             {
                 Turn++;
                 ChangePlayer();
+            }
+            //jogadas especiais
+            //en passant
+            if(p is Pawn && (destination.Line == initial.Line - 2 || destination.Line == initial.Line + 2))
+            {
+                vulnerableEnPassant = p;
+            }
+            else
+            {
+                vulnerableEnPassant = null;
             }
         }
         public void InitialPositionIsValid(Position pos)
