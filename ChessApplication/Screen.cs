@@ -21,13 +21,18 @@ namespace ChessApplication
                 Console.WriteLine("Waiting move: " + chess.CurrentPlayer);
                 if (chess.Check)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("You are in Check!");
+                    Console.ResetColor();
                 }
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Check mate!");
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Winner: " + chess.CurrentPlayer);
+                Console.ResetColor();
             }
         }
 
@@ -143,7 +148,6 @@ namespace ChessApplication
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("White: ");
             GetHashPieces(chess.CapturedPieces(Color.White));
-            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Write("Black: ");
             GetHashPieces(chess.CapturedPieces(Color.Black));

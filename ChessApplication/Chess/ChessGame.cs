@@ -57,10 +57,31 @@ namespace ChessApplication.Chess
         {
             Piece capturedPiece = MovePiece(initial, destination);
 
+            if (IsCheck(CurrentPlayer))
+            {
+                UndoMove(initial, destination, capturedPiece);
+                throw new GameBoardExceptions("You can't put yourself in check!");
+            }
+
             Piece p = GameB.piece(destination);
 
-            Turn++;
-            ChangePlayer();
+            if (IsCheck(EnemyColor(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+            if (IsCheckMate(EnemyColor(CurrentPlayer)))
+            {
+                Finish = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }
         }
         public void InitialPositionIsValid(Position pos)
         {
@@ -104,6 +125,64 @@ namespace ChessApplication.Chess
                 return Color.Black;
             }
             return Color.White;
+        }
+        Piece King(Color color)
+        {
+            foreach(Piece p in PiecesInGame(color))
+            {
+                if(p is King)
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
+        bool IsCheck(Color color)
+        {
+            Piece K = King(color);
+            if(K == null)
+            {
+                throw new GameBoardExceptions("This color king dosn't exist!");
+            }
+            foreach(Piece p in PiecesInGame(EnemyColor(color)))
+            {
+                bool[,] mat = p.PosibleMoves();
+                if(mat[K.Position.Line, K.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsCheckMate(Color color)
+        {
+            if (!IsCheck(color))
+            {
+                return false;
+            }
+            foreach(Piece p in PiecesInGame(color))
+            {
+                bool[,] mat = p.PosibleMoves();
+                for(int i = 0;i < GameB.Line; i++)
+                {
+                    for(int j = 0; j < GameB.Column; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position initial = p.Position;
+                            Position destination = new Position(i, j);
+                            Piece capturedPiece = MovePiece(initial, destination);
+                            bool isCheck = IsCheck(color);
+                            UndoMove(initial, destination, capturedPiece);
+                            if (!isCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
         //verifica todas as peças capturadas de uma determinada cor
         public HashSet<Piece> CapturedPieces(Color color)
