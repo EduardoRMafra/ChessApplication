@@ -61,6 +61,24 @@ namespace ChessApplication.Chess
                     Captured.Add(capturedPiece);
                 }
             }
+            //Roque pequeno
+            if (p is King && destination.Column == initial.Column + 2)
+            {
+                Position initialT = new Position(initial.Line, initial.Column + 3);
+                Position destinationT = new Position(initial.Line, initial.Column + 1);
+                Piece T = GameB.RemovePiece(initialT);
+                T.IncreaseQtMoves();
+                GameB.PieceToPlace(T, destinationT);
+            }
+            //Roque grande
+            if (p is King && destination.Column == initial.Column - 2)
+            {
+                Position initialT = new Position(initial.Line, initial.Column - 4);
+                Position destinationT = new Position(initial.Line, initial.Column - 1);
+                Piece T = GameB.RemovePiece(initialT);
+                T.IncreaseQtMoves();
+                GameB.PieceToPlace(T, destinationT);
+            }
             return capturedPiece;
         }
         public void UndoMove(Position initial, Position destination,Piece capturedPiece)
@@ -92,6 +110,24 @@ namespace ChessApplication.Chess
                     GameB.PieceToPlace(capturedPiece, posP);
                     Captured.Remove(capturedPiece);
                 }
+            }
+            //Roque pequeno
+            if (p is King && destination.Column == initial.Column + 2)
+            {
+                Position initialT = new Position(initial.Line, initial.Column + 3);
+                Position destinationT = new Position(initial.Line, initial.Column + 1);
+                Piece T = GameB.RemovePiece(destinationT);
+                T.DecreaseQtMoves();
+                GameB.PieceToPlace(T, initialT);
+            }
+            //Roque grande
+            if (p is King && destination.Column == initial.Column - 2)
+            {
+                Position initialT = new Position(initial.Line, initial.Column - 4);
+                Position destinationT = new Position(initial.Line, initial.Column - 1);
+                Piece T = GameB.RemovePiece(destinationT);
+                T.IncreaseQtMoves();
+                GameB.PieceToPlace(T, initialT);
             }
         }
         public void MakeMovement(Position initial, Position destination)
@@ -306,7 +342,7 @@ namespace ChessApplication.Chess
             PutNewPieces('b', 1, new Horse(GameB, Color.White));
             PutNewPieces('c', 1, new Bishop(GameB, Color.White));
             PutNewPieces('d', 1, new Queen(GameB, Color.White));
-            PutNewPieces('e', 1, new King(GameB, Color.White));
+            PutNewPieces('e', 1, new King(GameB, Color.White, this));
             PutNewPieces('f', 1, new Bishop(GameB, Color.White));
             PutNewPieces('g', 1, new Horse(GameB, Color.White));
             PutNewPieces('h', 1, new Tower(GameB, Color.White));
@@ -323,7 +359,7 @@ namespace ChessApplication.Chess
             PutNewPieces('b', 8, new Horse(GameB, Color.Black));
             PutNewPieces('c', 8, new Bishop(GameB, Color.Black));
             PutNewPieces('d', 8, new Queen(GameB, Color.Black));
-            PutNewPieces('e', 8, new King(GameB, Color.Black));
+            PutNewPieces('e', 8, new King(GameB, Color.Black, this));
             PutNewPieces('f', 8, new Bishop(GameB, Color.Black));
             PutNewPieces('g', 8, new Horse(GameB, Color.Black));
             PutNewPieces('h', 8, new Tower(GameB, Color.Black));

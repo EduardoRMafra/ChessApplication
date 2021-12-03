@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ChessApplication.Chess;
 using ChessApplication.Generic;
+using ChessApplication.Exceptions;
 
 namespace ChessApplication
 {
@@ -29,7 +30,7 @@ namespace ChessApplication
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Check mate!");
+                Console.WriteLine("Checkmate!");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Winner: " + chess.CurrentPlayer);
                 Console.ResetColor();
@@ -81,7 +82,6 @@ namespace ChessApplication
                     BackgroundChange(BackgroundBoardG, out BackgroundBoardG);
 
                     Console.BackgroundColor = BackgroundBoardG;
-
                 }
                 CreateEdge(" " + (8 - i) + " ");
                 BackgroundChange(StartBackgroundBoardG, out StartBackgroundBoardG);
@@ -136,8 +136,16 @@ namespace ChessApplication
         public static ChessPosition ReadChessPosition()
         {
             string s = Console.ReadLine();
+            if(s.Length != 2)
+            {
+                throw new GameBoardExceptions("Invalid position!");
+            }
             char column = s[0];
-            int line = int.Parse(s[1] + "");
+            int line;
+            if (!int.TryParse(s[1] + "", out line))
+            {
+                throw new GameBoardExceptions("Invalid position!");
+            }
             return new ChessPosition(column, line);
         }
         static void GetCapturedPieces(ChessGame chess)
