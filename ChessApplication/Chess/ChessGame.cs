@@ -143,16 +143,20 @@ namespace ChessApplication.Chess
             Piece p = GameB.piece(destination);
 
             //Promoção
-
             if(p is Pawn)
             {
                 if(destination.Line == 0 || destination.Line == 7)
                 {
-                    p = GameB.RemovePiece(destination);
-                    Pieces.Remove(p);
                     Console.Write("Promotion possible, chose a promotion for the pawn (t, h, b, q): ");
-                    char pes = char.Parse(Console.ReadLine().ToLower());
+                    char pes;
+                    if (!char.TryParse(Console.ReadLine().ToLower(), out pes))
+                    {
+                        UndoMove(initial, destination, capturedPiece);
+                        throw new GameBoardExceptions("Invalid piece!");
+                    }
+
                     Piece promo;
+
                     switch (pes)
                     {
                         case 't':
@@ -168,8 +172,13 @@ namespace ChessApplication.Chess
                             promo = new Queen(GameB, p.Color);
                             break;
                         default:
+                            UndoMove(initial, destination, capturedPiece);
                             throw new GameBoardExceptions("Invalid piece!");
                     }
+
+                    p = GameB.RemovePiece(destination);
+                    Pieces.Remove(p);
+
                     GameB.PieceToPlace(promo, destination);
                     Pieces.Add(promo);
                 }
